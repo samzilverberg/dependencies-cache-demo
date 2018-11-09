@@ -1,5 +1,5 @@
 purpose of repo
-###############
+===============
 
 showing 2 ways to cache deps for build
 
@@ -18,7 +18,7 @@ I removed the gradle and g8 template related files from the seed project.
 
 
 SBT BUILD STAGES
-################
+================
 
 its important to understand that SBT has different stages when loading your sbt project configuration and building it.
 
@@ -36,18 +36,18 @@ each stage has its own repositories. and if credentials are needed then they nee
 
 
 DOCKER IMAGE
-############
+============
 
 you can just "bundle" all your deps into a docker image, and when building in a CI env make sure that you build within that image and point any cache related dirs to the cache dirs in the docker image.
 
-###main advantages: simplicity & speed.
+### main advantages: simplicity & speed.
 simple: building the image and pushing it somewhere to be available is simple.
 speed: because all the deps are local there is no need for the build process to fetch anything from the internet.
 
-###main drawback: maintenance
+### main drawback: maintenance
 is that the image represents a snapshot in time of all your deps. so while its perfect for the build NOW, when you go forward and update or dependencies the docker image will miss them, causing your build tool to "miss" on the cache and go online to fetch them.
 
-###how to overcome the drawback?
+### how to overcome the drawback?
 rebuild your image from time to time and push it to your favorite docker repository.
 most CIs have a way to trigger a pipeline on some cron expression.
 so you could automate the process by creating a small pipeline to get your code from your CVS (git master branch?), build the deps docker image and push it.
@@ -75,15 +75,15 @@ the build script simply calls your build tool specifying where the cache dirs ar
 
 
 ARTIFACTORY
-###########
+===========
 
 artifactory will proxy & store all dependencies for you.
 you just need to setup your build tool to look for deps on artifactory instead of wherever it looks for by default.
 
-###main advantage: one time setup
+### main advantage: one time setup
 once you setup your build to use artifactory, you generally don't need to maintain it anymore. unless you add dependencies from new repositories in which case you'll need to define these on your artifactory proxy.
 
-###main disadvantage: speed
+### main disadvantage: speed
 because the artifactory cache is not local to the build, it still needs to fetch from it, usually over network.
 
 
