@@ -15,8 +15,8 @@ elif [ -d /some-other-cache ]; then
 fi
 if [ -n "$CACHE" ]; then
   SBT_OPTIONS="-Dsbt.ivy.home=$CACHE/.ivy2/ \
-  -Dsbt.boot.directory=$CACHE/.sbt \
-  -Dsbt.global.base=$CACHE/.sbt/boot"
+  -Dsbt.boot.directory=$CACHE/.sbt/boot \
+  -Dsbt.global.base=$CACHE/.sbt"
 fi
 
 sbt ${SBT_OPTIONS} ";project api-gateway ;clean ;cleanFiles ;test ;dist"
